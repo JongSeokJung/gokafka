@@ -1,7 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/JongSeokJung/gokafka/internal/log"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	myMessage := log.Message{
+		Offset: 123,
+		Timestamp: 456,
+		Payload: []byte("Hello, World!"),
+	}
+
+	encoded := myMessage.Encode()
+	fmt.Printf("Encoded Message: %x\n", encoded)
+
+	decoded := log.Decode(encoded)
+	fmt.Printf("Decoded Message: Offset=%d, Timestamp=%d, Payload=%s\n", decoded.Offset, decoded.Timestamp, string(decoded.Payload))
+
 }
